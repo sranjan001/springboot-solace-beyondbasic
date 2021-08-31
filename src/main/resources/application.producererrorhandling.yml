@@ -1,0 +1,31 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    function:
+      definition: myFunction
+    stream:
+      binders:
+        #This section of the configuration tells the solace binder how to connect to the solace event broker/mesh
+        solace-broker:
+          type: solace
+          environment:
+            solace:
+              java:
+                host: tcps://solacehost:55443
+                msgVpn: spring-cloud-stream
+                clientUsername: username
+                clientPassword: password
+                connectRetries: 3
+                connectRetriesPerHost: 0
+                reconnectRetries: 3
+      bindings:
+        myFunction-in-0:
+          destination: 'a/b/>'
+          group: clientAck
+        myFunction-out-0:
+          destination: 'my/default/topic'
+#          producer:
+#            error-channel-enabled: true
+
+
